@@ -10,44 +10,34 @@ using namespace std;
 
 class Solution {
   public:
-    void solve(int i,int j,int n,string temp,vector<vector<int>> &mat,vector<string>& ans,vector<vector<int>> &vis){
-        if(i==n-1 && j==n-1) {
-            ans.push_back(temp);
-            return;
-        }
-        //down + 'D'
-        if((i+1)<n && !vis[i+1][j] && mat[i+1][j]==1){
-            vis[i][j]=1;
-            solve(i+1,j,n,temp+'D',mat,ans,vis);
-            vis[i][j]=0;
-        }
-        //left + 'L'
-        if((j-1)>=0 && !vis[i][j-1] && mat[i][j-1]==1){
-            vis[i][j]=1;
-            solve(i,j-1,n,temp+'L',mat,ans,vis);
-            vis[i][j]=0;
-        }
-        //right + 'R'
-        if((j+1)<n && !vis[i][j+1] && mat[i][j+1]==1){
-            vis[i][j]=1;
-            solve(i,j+1,n,temp+'R',mat,ans,vis);
-            vis[i][j]=0;
-        }
-        //up + 'U'
-        if((i-1)>=0 && !vis[i-1][j] && mat[i-1][j]==1){
-            vis[i][j]=1;
-            solve(i-1,j,n,temp+'U',mat,ans,vis);
-            vis[i][j]=0;
-        }
-    }
+  void solve(int row,int col,string temp,vector<string> &ans,
+           vector<vector<int>> &mat, vector<vector<int>>&vis,int dj[],int di[])
+  {
+      if(row==mat.size()-1 && col==mat[0].size()-1){
+          ans.push_back(temp);
+          return;
+      }
+      string str="DLRU";
+      for(int i=0;i<4;i++){
+          int ntrow=row+di[i];
+          int ntcol=col+dj[i];
+          if(ntrow>=0 && ntrow<mat.size() && ntcol>=0 && ntcol<mat.size() && !vis[ntrow][ntcol] && mat[ntrow][ntcol]==1){
+              vis[row][col]=1;
+              solve(ntrow,ntcol,temp+str[i],ans,mat,vis,dj,di);
+              vis[row][col]=0;
+          }
+      }
+      
+  }
     vector<string> findPath(vector<vector<int>> &mat) {
-        // Your code goes here
         int n=mat.size();
-        vector<vector<int>> vis(n,vector<int> (n,0));
         vector<string> ans;
-        if(mat[0][0]==1) solve(0,0,n,"",mat,ans,vis);
+        vector<vector<int>> vis(n,vector<int>(n,0));
+        int di[4]={1,0,0,-1};
+        int dj[4]={0,-1,1,0};//D,L,R,U
+        if(mat[0][0]==1) solve(0,0,"",ans,mat,vis,dj,di);
         return ans;
-        
+        // Your code goes here
     }
 };
 
