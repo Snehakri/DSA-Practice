@@ -6,16 +6,16 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    int kthElement(vector<int>& arr1, vector<int>& arr2, int k) {
+    int kthElement(int k, vector<int>& arr1, vector<int>& arr2) {
+        int i=0,j=0;
         int n=arr1.size(),m=arr2.size();
         int count=0;
-        int i=0,j=0;
         k=k-1;
         while(i<n && j<m){
             if(arr1[i]<arr2[j]){
                 if(count==k) return arr1[i];
-                i++;
                 count++;
+                i++;
             }
             else{
                 if(count==k) return arr2[j];
@@ -23,16 +23,17 @@ class Solution {
                 count++;
             }
         }
-         while(i<n){
-             if(count==k) return arr1[i];
-                i++;
+        while(i<n){
+            if(count==k) return arr1[i];
                 count++;
-         }
-         while(j<m){
-             if(count==k) return arr2[j];
-             j++;
-            count++;
-         }
+                i++;
+        }
+        while(j<m){
+            if(count==k) return arr2[j];
+                j++;
+                count++;
+        }
+        return -1;
         // code here
     }
 };
@@ -65,7 +66,7 @@ int main() {
         }
 
         Solution ob;
-        cout << ob.kthElement(arr1, arr2, k) << endl;
+        cout << ob.kthElement(k, arr1, arr2) << endl;
     }
     return 0;
 }
