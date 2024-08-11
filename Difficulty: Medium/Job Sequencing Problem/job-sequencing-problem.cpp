@@ -26,37 +26,30 @@ struct Job
 class Solution 
 {
     public:
-    static bool cmp(Job a, Job b){
+    //Function to find the maximum profit and the number of jobs done.
+    static bool cmp(Job a,Job b){
         return a.profit>b.profit;
     }
-    //Function to find the maximum profit and the number of jobs done.
     vector<int> JobScheduling(Job arr[], int n) 
     { 
-        vector<int> v(n+1,-1);
-        int count=0,profit=0;
         sort(arr,arr+n,cmp);
-        for(int it=0;it<n;it++){
-            // if(v[it.dead]==-1){
-            //     v[it.dead]==1;
-            //     count++;
-            //     profit+=it.profit;
-            // }
-            // else{
-            //cout<<arr[it].dead<<" "<<arr[it].profit<<endl;
-                int j=arr[it].dead;
-                while(j>0){
-                    //cout<<v[j]<<endl;
-                     if(v[j]==-1){
-                        v[j]=1;
-                       count++;
-                       profit+=arr[it].profit;
-                       break;
-                     }
-                     j--;
+        int vis[n+1]={0};
+        int ans=0;
+        int count=0;
+        for(int i=0;i<n;i++){
+            int m=arr[i].dead;
+            while(m>=1){
+                if(vis[m]==0){
+                    ans+=arr[i].profit;
+                    count++;
+                    vis[m]=1;
+                    break;
                 }
-            // }
+                m--;
+            }
         }
-        return {count,profit};
+        return {count,ans};
+        
         // your code here
     } 
 };
