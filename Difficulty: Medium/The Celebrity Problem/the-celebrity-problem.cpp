@@ -13,20 +13,24 @@ class Solution {
     // Function to find if there is a celebrity in the party or not.
     int celebrity(vector<vector<int> >& mat) {
         int n=mat.size();
-        if(n==1 && mat[0][0]==0) return 0;
-        map <int,int> mp;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(mat[i][j]==1){
-                    mp[j]++;
-                    mp[i]--;
-                }
+        int i=0,j=n-1;
+        while(i<j){
+            if(mat[i][j]==0){
+                j--;
+            }
+            else i++;
+        }
+        for(int k=0;k<n;k++){
+            if(i!=k){
+                if(mat[i][k]==1) return -1;
+            } 
+        }
+        for(int k=0;k<n;k++){
+            if(i!=k) {
+                if(mat[k][i]==0) return -1;
             }
         }
-        for(auto it:mp){
-            if(it.second==n-1) return it.first;
-        }
-        return -1;
+        return i;
         // code here
     }
 };
