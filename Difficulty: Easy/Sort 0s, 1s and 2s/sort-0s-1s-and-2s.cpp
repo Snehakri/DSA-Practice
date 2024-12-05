@@ -7,8 +7,19 @@ using namespace std;
 class Solution {
   public:
     void sort012(vector<int>& arr) {
-        sort(arr.begin(),arr.end());
         // code here
+        int a[3]={0};
+        for(int i=0;i<arr.size();i++){
+            a[arr[i]]++;
+        }
+        int j=0;
+        for(int i=0;i<3;i++){
+            for(int k=0;k<a[i];k++){
+                arr[j]=i;
+                j++;
+            }
+        }
+       
     }
 };
 
@@ -38,6 +49,7 @@ int main() {
         }
 
         cout << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
