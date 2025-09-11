@@ -1,59 +1,26 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-
 class Solution {
   public:
     int minJumps(vector<int>& arr) {
-        if(arr[0]==0) return -1;
-        int n=arr.size();
-        
-        vector<int> dp(n,1e9);
-        dp[0]=0;
-        
-        
-        for(int ind=0;ind<n;ind++){
-            if(arr[ind]==0) continue;
-             
-            for(int i=1;i<=arr[ind];i++){
-               if((ind+i)>=n) break;
-            dp[ind+i]=min(dp[ind+i],1 + dp[ind]);
+        int n = arr.size();
+        if (n <= 1) return 0;          // Already at last index
+        if (arr[0] == 0) return -1;    // Can't move anywhere
+
+        int maxReach = arr[0];  // Farthest index reachable
+        int steps = arr[0];     // Steps left in current jump
+        int jumps = 1;          // We make the first jump from index 0
+
+        for (int i = 1; i < n; i++) {
+            if (i == n - 1) return jumps;  // Reached last index
+
+            maxReach = max(maxReach, i + arr[i]);
+            steps--;
+
+            if (steps == 0) {  // Need to make another jump
+                jumps++;
+                if (i >= maxReach) return -1;  // Can't move further
+                steps = maxReach - i;
+            }
         }
-        }
-        
-        if(dp[n-1]==1e9) return -1;
-        return dp[n-1];
+        return -1; // If end is never reached
     }
-
-
 };
-
-
-
-//{ Driver Code Starts.
-
-int main() {
-    int t;
-    cin >> t;
-    cin.ignore();
-    while (t--) {
-        int n, i, j;
-        vector<int> arr;
-        string ip;
-        int number;
-        getline(cin, ip);
-        stringstream ss(ip);
-
-        while (ss >> number) {
-            arr.push_back(number);
-        }
-        Solution obj;
-        cout << obj.minJumps(arr) << endl << "~\n";
-    }
-    return 0;
-}
-
-// } Driver Code Ends
